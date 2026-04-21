@@ -7,9 +7,9 @@
     <div class="card-header bg-transparent d-flex justify-content-between align-items-center flex-wrap gap-3">
         <span class="fw-semibold"><i class="fas fa-users me-2 text-primary"></i> Data Mahasiswa</span>
         <div class="d-flex gap-2">
-            <form method="GET" action="{{ route('mahasiswa.index') }}" class="search-container">
+            <form method="GET" action="{{ route('mahasiswa.index') }}" class="search-container" id="searchForm">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" name="search" class="search-input" placeholder="Cari mahasiswa..." value="{{ request('search') }}">
+                <input type="text" name="search" class="search-input" placeholder="Cari mahasiswa..." value="{{ request('search') }}" id="searchInput">
             </form>
             <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary rounded-pill px-4">
                 <i class="fas fa-plus me-1"></i> Tambah
@@ -31,7 +31,7 @@
                 </thead>
                 <tbody>
                     @forelse($mahasiswas as $mahasiswa)
-                    <tr>
+                    <tr data-aos="fade-up" data-aos-delay="{{ $loop->index * 30 }}">
                         <td>{{ $mahasiswa->id_mahasiswa }}</td>
                         <td><code>{{ $mahasiswa->nim }}</code></td>
                         <td class="fw-semibold">{{ $mahasiswa->nama }}</td>
@@ -69,23 +69,16 @@
             </table>
         </div>
         
-        <!-- PAGINATION - RAPI & KECIL -->
         <div class="d-flex flex-column align-items-center mt-4">
             @if($mahasiswas->total() > 0)
                 <nav aria-label="Page navigation">
                     <ul class="pagination pagination-sm">
-                        {{-- Previous Button --}}
                         @if($mahasiswas->onFirstPage())
-                            <li class="page-item disabled">
-                                <span class="page-link">« Previous</span>
-                            </li>
+                            <li class="page-item disabled"><span class="page-link">« Previous</span></li>
                         @else
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $mahasiswas->previousPageUrl() }}&search={{ request('search') }}" rel="prev">« Previous</a>
-                            </li>
+                            <li class="page-item"><a class="page-link" href="{{ $mahasiswas->previousPageUrl() }}&search={{ request('search') }}">« Previous</a></li>
                         @endif
                         
-                        {{-- Pagination Elements --}}
                         @php
                             $currentPage = $mahasiswas->currentPage();
                             $lastPage = $mahasiswas->lastPage();
@@ -111,20 +104,14 @@
                             }
                         @endphp
                         
-                        {{-- Next Button --}}
                         @if($mahasiswas->hasMorePages())
-                            <li class="page-item">
-                                <a class="page-link" href="{{ $mahasiswas->nextPageUrl() }}&search={{ request('search') }}" rel="next">Next »</a>
-                            </li>
+                            <li class="page-item"><a class="page-link" href="{{ $mahasiswas->nextPageUrl() }}&search={{ request('search') }}">Next »</a></li>
                         @else
-                            <li class="page-item disabled">
-                                <span class="page-link">Next »</span>
-                            </li>
+                            <li class="page-item disabled"><span class="page-link">Next »</span></li>
                         @endif
                     </ul>
                 </nav>
                 
-                <!-- Info Pagination -->
                 <div class="pagination-info mt-2">
                     <i class="fas fa-chart-line"></i> 
                     Menampilkan {{ $mahasiswas->firstItem() }} - {{ $mahasiswas->lastItem() }} dari {{ $mahasiswas->total() }} data
@@ -136,13 +123,15 @@
 
 @push('scripts')
 <script>
-    let timeout;
-    const searchInput = document.querySelector('input[name="search"]');
+    let searchTimeout;
+    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('searchForm');
+    
     if(searchInput) {
         searchInput.addEventListener('keyup', function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                this.form.submit();
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchForm.submit();
             }, 500);
         });
     }
