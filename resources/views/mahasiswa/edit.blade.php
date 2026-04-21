@@ -23,7 +23,7 @@
                                name="nim" 
                                value="{{ old('nim', $mahasiswa->nim) }}"
                                placeholder="Contoh: 2023001">
-                        <small class="text-muted">7 digit angka unik</small>
+                        <small class="text-muted">11 digit angka unik</small>
                         @error('nim')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

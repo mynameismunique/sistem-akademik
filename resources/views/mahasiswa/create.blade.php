@@ -21,8 +21,8 @@
                                id="nim" 
                                name="nim" 
                                value="{{ old('nim') }}"
-                               placeholder="Contoh: 2023001">
-                        <small class="text-muted">7 digit angka unik</small>
+                               placeholder="Contoh: 202300100000">
+                        <small class="text-muted">11 digit angka unik</small>
                         @error('nim')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -35,7 +35,7 @@
                                id="nama" 
                                name="nama" 
                                value="{{ old('nama') }}"
-                               placeholder="Contoh: Andi Saputra">
+                               placeholder="Contoh: Mugni Ramdani">
                         @error('nama')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
