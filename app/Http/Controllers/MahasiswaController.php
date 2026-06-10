@@ -12,7 +12,6 @@ class MahasiswaController extends Controller
     {
         $query = Mahasiswa::with('jurusan');
         
-        // FITUR SEARCH - Perbaiki ini
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -25,14 +24,11 @@ class MahasiswaController extends Controller
         }
         
         $mahasiswas = $query->latest()->paginate(5);
-        
-        // Mempertahankan search saat pagination
         $mahasiswas->appends($request->only('search'));
         
         return view('mahasiswa.index', compact('mahasiswas'));
     }
     
-    // Method lainnya tetap sama
     public function create()
     {
         $jurusans = Jurusan::all();
@@ -49,6 +45,12 @@ class MahasiswaController extends Controller
         
         Mahasiswa::create($request->all());
         return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil ditambahkan');
+    }
+    
+    public function show($id)
+    {
+        $mahasiswa = Mahasiswa::with('jurusan')->findOrFail($id);
+        return view('mahasiswa.show', compact('mahasiswa'));
     }
     
     public function edit($id)
@@ -76,5 +78,20 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id);
         $mahasiswa->delete();
         return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil dihapus');
+    }
+
+    public function print()
+    {
+        $mahasiswa = Mahasiswa::with('jurusan')->get();
+        return view('mahasiswa.print', compact('mahasiswa'));
+    }
+
+    public function exportExcel()
+    {
+        $mahasiswa = Mahasiswa::with('jurusan')->get();
+        return response()
+            ->view('mahasiswa.excel', compact('mahasiswa'))
+            ->header('Content-Type', 'application/vnd.ms-excel')
+            ->header('Content-Disposition', 'attachment; filename=mahasiswa.xls');
     }
 }

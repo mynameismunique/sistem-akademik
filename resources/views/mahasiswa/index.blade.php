@@ -11,6 +11,12 @@
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" name="search" class="search-input" placeholder="Cari mahasiswa..." value="{{ request('search') }}" id="searchInput">
             </form>
+            <a href="{{ route('mahasiswa.print') }}" target="_blank" class="btn btn-secondary rounded-pill px-3">
+                <i class="fas fa-file-pdf me-1"></i> Cetak PDF
+            </a>
+            <a href="{{ route('mahasiswa.export-csv') }}" target="_blank" class="btn btn-success rounded-pill px-3">
+                <i class="fas fa-file-excel me-1"></i> Export Excel
+            </a>
             <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary rounded-pill px-4">
                 <i class="fas fa-plus me-1"></i> Tambah
             </a>
