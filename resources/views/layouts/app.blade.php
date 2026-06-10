@@ -31,7 +31,11 @@
                 <a class="nav-link {{ request()->routeIs('jurusan.*') ? 'active' : '' }}" href="{{ route('jurusan.index') }}">
                     <i class="fas fa-building"></i> <span>Jurusan</span>
                 </a>
-                <a class="nav-link {{ request()->routeIs('mahasiswa.*') ? 'active' : '' }}" href="{{ route('mahasiswa.index') }}">
+                <a class="nav-link {{ request()->routeIs('mahasiswa.*') ? 'active' : '' }}" 
+                href="{{ url('/mahasiswa') }}" 
+                id="main-mahasiswa-link" 
+                data-no-pjax 
+                onclick="window.location.href='{{ url('/mahasiswa') }}'; return true;">
                     <i class="fas fa-users"></i> <span>Mahasiswa</span>
                 </a>
                 <a class="nav-link {{ request()->routeIs('matakuliah.*') ? 'active' : '' }}" href="{{ route('matakuliah.index') }}">

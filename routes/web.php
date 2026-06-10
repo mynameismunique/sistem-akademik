@@ -25,7 +25,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/mahasiswa/export-csv', [MahasiswaController::class, 'exportExcel'])->name('mahasiswa.export-csv');
     Route::get('/mahasiswa/print', [MahasiswaController::class, 'print'])->name('mahasiswa.print');
-    Route::resource('mahasiswa', MahasiswaController::class);
+    
+    Route::resource('mahasiswa', MahasiswaController::class)->names([
+        'index' => 'mahasiswa.index',
+        'create' => 'mahasiswa.create',
+        'store' => 'mahasiswa.store',
+        'show' => 'mahasiswa.show',
+        'edit' => 'mahasiswa.edit',
+        'update' => 'mahasiswa.update',
+        'destroy' => 'mahasiswa.destroy',
+    ]);
 });
 
 require __DIR__.'/auth.php';
